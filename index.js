@@ -169,3 +169,18 @@ function getTotalFoldersAndFiles(folderPath) {
 Memulai sistem
 **/
 start('main.js');
+
+// Auto-reply to "السلام عليكم"
+conn.ev.on('messages.upsert', async (msg) => {
+    try {
+        const message = msg.messages[0];
+        const text = message.message.conversation || '';
+
+        if (text.includes('السلام عليكم')) {
+            await conn.sendMessage(message.key.remoteJid, { text: 'وعليكم السلام' });
+        }
+    } catch (err) {
+        console.error('Error handling message:', err);
+    }
+});
+
